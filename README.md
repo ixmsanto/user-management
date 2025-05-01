@@ -20,7 +20,7 @@ A Laravel-based web application for managing users with role-based access contro
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ixmsanto/user-management.git
    cd user-management
    ```
 
