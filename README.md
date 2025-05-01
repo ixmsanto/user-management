@@ -1,61 +1,186 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# User-Management Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based web application for managing users with role-based access control. Built with Laravel 12.11.1, Livewire, Bootstrap, and Spatie Laravel Permission, this project provides a simple and intuitive interface for creating, editing, and deleting users, with admin and user roles.
 
-## About Laravel
+## Features
+- **User Management**: Create, read, update, and delete (CRUD) users with name, email, password, and role fields.
+- **Role-Based Access**: Admins can manage users, while regular users have restricted access.
+- **Livewire Interactivity**: Dynamic, real-time form updates without page reloads.
+- **Bootstrap Styling**: Responsive and modern UI with Bootstrap 5.
+- **Simplified Welcome Page**: Clean landing page with a "Welcome to User-Management Application" message and login/register navigation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites
+- **PHP**: 8.2.28 or higher
+- **Composer**: 2.x
+- **Node.js**: 16.x or higher (with npm)
+- **MySQL**: 8.0 or higher (or another compatible database)
+- **Git**: For cloning the repository
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd user-management
+   ```
 
-## Learning Laravel
+2. **Install PHP Dependencies**
+   ```bash
+   composer install
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **Install JavaScript/CSS Dependencies**
+   ```bash
+   npm install
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. **Set Up Environment**
+   - Copy the `.env.example` file to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update `.env` with your database credentials:
+     ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=user_management
+     DB_USERNAME=your_username
+     DB_PASSWORD=your_password
+     ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Laravel Sponsors
+6. **Run Migrations**
+   - Run database migrations to create tables (includes Spatie Laravel Permission tables):
+     ```bash
+     php artisan migrate
+     ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+7. **Seed the Database**
+   - Seed the database to create roles (`admin`, `user`) and default users:
+     - Admin user: `admin@example.com`, password: `password123`, role: `admin`
+     - Regular user: `user@example.com`, password: `password123`, role: `user`
+   - Run the seeder:
+     ```bash
+     php artisan db:seed
+     ```
+   - The `DatabaseSeeder` (`database/seeders/DatabaseSeeder.php`) creates these users and roles automatically.
 
-### Premium Partners
+8. **Compile Assets**
+   - Build CSS and JavaScript assets using Vite:
+     ```bash
+     npm run build
+     ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+9. **Start the Development Server**
+   ```bash
+   php artisan serve
+   ```
+   - Access the application at `http://127.0.0.1:8000`.
+
+## Usage
+
+1. **Welcome Page**
+   - Visit `http://127.0.0.1:8000` to see the welcome page with a "Welcome to User-Management Application" message.
+   - Use the navigation to log in, register, or access the dashboard (if authenticated).
+
+2. **User Login**
+   - Log in with the seeded users:
+     - **Admin**: `admin@example.com`, password: `password123`
+     - **Regular User**: `user@example.com`, password: `password123`
+   - Alternatively, register a new user at `/register` and assign roles via the admin dashboard.
+
+3. **Admin Dashboard**
+   - Access `/admin/users` (requires `admin` role) to manage users.
+   - Create, edit, or delete users with name, email, password, and role fields.
+   - The interface uses Livewire for real-time updates.
+
+4. **Dashboard**
+   - Authenticated users can access `/dashboard` for user-specific features (configure as needed).
+
+## Project Structure
+- **`resources/views/welcome.blade.php`**: Simplified landing page with a welcome message and navigation.
+- **`resources/views/admin/users.blade.php`**: Admin dashboard for user management, embedding the Livewire component.
+- **`resources/views/livewire/user-management.blade.php`**: Livewire component view for user CRUD operations.
+- **`app/Livewire/UserManagement.php`**: Livewire component handling user management logic.
+- **`app/Models/User.php`**: User model with Spatie Laravel Permission’s `HasRoles` trait.
+- **`database/seeders/DatabaseSeeder.php`**: Seeder for creating roles and default users.
+- **`resources/sass/app.scss`**: Bootstrap-based styles.
+- **`routes/web.php`**: Defines routes for welcome, auth, and admin pages.
+
+## Troubleshooting
+
+1. **"Attempt to read property 'name' on null" Error**
+   - Occurs when a user has no roles. Ensure all users have roles:
+     ```bash
+     php artisan tinker
+     $users = App\Models\User::doesntHave('roles')->get();
+     foreach ($users as $user) {
+         $user->assignRole('user');
+     }
+     exit
+     ```
+   - Verify `app/Livewire/UserManagement.php` handles missing roles in the `edit` method:
+     ```php
+     $this->role = optional($user->roles->first())->name ?? '';
+     ```
+
+2. **Assets Not Loading**
+   - Rebuild assets:
+     ```bash
+     npm run build
+     ```
+   - Verify `public/build/manifest.json` exists and includes `resources/sass/app.scss`.
+
+3. **Sass Deprecation Warnings**
+   - Update Bootstrap and migrate Sass imports:
+     ```bash
+     npm install bootstrap@latest
+     npm install -g sass-migrator
+     sass-migrator migration --migrate-deps resources/sass/app.scss
+     ```
+
+4. **Access Denied to `/admin/users`**
+   - Ensure the logged-in user has the `admin` role:
+     ```bash
+     php artisan tinker
+     $user = App\Models\User::find(1);
+     $user->assignRole('admin');
+     exit
+     ```
+   - Verify `app/Http/Middleware/RoleMiddleware.php` uses Spatie’s `hasAnyRole`:
+     ```php
+     if (auth()->check() && auth()->user()->hasAnyRole($roles)) {
+         return $next($request);
+     }
+     ```
+
+5. **Livewire Errors**
+   - Ensure Livewire is up-to-date:
+     ```bash
+     composer update livewire/livewire
+     ```
+   - Clear caches:
+     ```bash
+     php artisan cache:clear
+     php artisan view:clear
+     ```
+
+## Dependencies
+- **Laravel**: 12.11.1
+- **PHP**: 8.2.28
+- **Livewire**: 3.x
+- **Spatie Laravel Permission**: For role-based access
+- **Bootstrap**: 5.x (via `resources/sass/app.scss`)
+- **Vite**: For asset compilation
+- **Instrument Sans**: Font from Bunny Fonts
 
 ## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Feel free to submit issues or pull requests to improve the application. Ensure you test changes locally and follow Laravel coding standards.
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source and licensed under the [MIT License](https://opensource.org/licenses/MIT).
