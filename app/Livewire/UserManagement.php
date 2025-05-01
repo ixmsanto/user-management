@@ -1,8 +1,8 @@
 <?php
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\User;
+use Livewire\Component;
 
 class UserManagement extends Component
 {
@@ -38,7 +38,12 @@ class UserManagement extends Component
             'password' => bcrypt($this->password),
         ]);
 
-        $user->assignRole($this->role);
+        if ($this->role) {
+            $user->assignRole($this->role);
+        } else {
+            $user->assignRole('user'); // Default role
+        }
+
         $this->resetForm();
         $this->users = User::with('roles')->get();
     }
@@ -49,7 +54,7 @@ class UserManagement extends Component
         $this->editUserId = $id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->roles->first()->name;
+        $this->role = optional($user->roles->first())->name ?? '';
         $this->editing = true;
 
         $this->rules['email'] = 'required|string|email|max:255|unique:users,email,' . $id;
@@ -67,7 +72,12 @@ class UserManagement extends Component
             'password' => $this->password ? bcrypt($this->password) : $user->password,
         ]);
 
-        $user->syncRoles($this->role);
+        if ($this->role) {
+            $user->syncRoles([$this->role]);
+        } else {
+            $user->syncRoles(['user']); // Default role
+        }
+
         $this->resetForm();
         $this->users = User::with('roles')->get();
     }
@@ -86,5 +96,6 @@ class UserManagement extends Component
         $this->role = '';
         $this->editing = false;
         $this->editUserId = null;
+        $this->resetValidation();
     }
 }

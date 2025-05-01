@@ -50,7 +50,7 @@
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->roles->first()->name }}</td>
+                        <td>{{ optional($user->roles->first())->name ?? 'No Role' }}</td>
                         <td>
                             <button class="btn btn-sm btn-primary" wire:click="edit({{ $user->id }})">Edit</button>
                             <button class="btn btn-sm btn-danger" wire:click="delete({{ $user->id }})">Delete</button>

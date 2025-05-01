@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>User Management</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
 </head>
 <body>
@@ -49,6 +49,5 @@
     </main>
 
     @livewireScripts
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
